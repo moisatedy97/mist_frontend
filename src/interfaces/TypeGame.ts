@@ -1,0 +1,34 @@
+import { Developer } from "./TypeDeveloper";
+import { Genre } from "./TypeGenre";
+import { Platform } from "./TypePlatform";
+import { Publisher } from "./TypePublisher";
+import { Tag } from "./TypeTag";
+import { Rating } from "./TypeRating";
+
+export type Game = {
+    id: number;
+    slug: string;
+    name: string;
+    description_raw: string;
+    released: string;
+    metacritic: number;
+    metacritic_url: string;
+    background_image: string;
+    website: string;
+    rating: number;
+    ratings_count: number;
+    ratings: Rating[];
+    playtime: number;
+    achievements_count: number;
+    reddit_url: string;
+    reddit_name: string;
+    reddit_description: string;
+    reddit_count: number;
+    twitch_count: number;
+    youtube_count: number;
+    parent_platforms: Platform[];
+    genres: Genre[];
+    developers: Developer[];
+    publishers: Publisher[];
+    tags: Tag[];
+};
