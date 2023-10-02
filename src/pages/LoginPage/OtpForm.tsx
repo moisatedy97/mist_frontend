@@ -12,7 +12,7 @@ const OtpForm = (): ReactElement => {
     const [timer, setTimer] = useState<number>(60);
     const [otp, setOtp] = useState<string>("");
     const setIsCredentialsChecked = useUserInfoStore((state) => state.setIsCredentialsChecked);
-    const currentTimer = useRef<number>();
+    const currentTimer = useRef<NodeJS.Timeout>();
     const numberRegEx = new RegExp("^[0-9]+$");
 
     useEffect(() => {
