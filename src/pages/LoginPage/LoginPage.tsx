@@ -8,6 +8,7 @@ import { useUserInfoStore } from "../../stores/authentication/UserStore";
 import OtpForm from "./OtpForm";
 import Logo from "../../components/Logo";
 import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 
 const LoginPage = (): ReactElement => {
     const { isCredentialsChecked, isCredentialsWrong } = useUserInfoStore((state) => ({
@@ -97,9 +98,9 @@ const ExtraOptions = (): ReactElement => {
             <p className={"text-sm text-gray-400 underline hover:text-gray-300"}>{"Help, I can't sign in"}</p>
             <div className={"flex gap-2"}>
                 <p className={"text-sm text-gray-400"}>{"Don't have a Steam account?"}</p>
-                <a className={"cursor-pointer text-sm text-gray-400 underline hover:text-gray-300"}>
+                <Link to={"/signup"} className={"cursor-pointer text-sm text-gray-400 underline hover:text-gray-300"}>
                     {"Create a Free Account"}
-                </a>
+                </Link>
             </div>
         </div>
     );
