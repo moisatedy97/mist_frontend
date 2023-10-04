@@ -7,7 +7,7 @@ const Logo = (): ReactElement => {
     return (
         <div className={"flex items-center gap-2"}>
             <img className={"rotate-180 stroke-white"} src={steamLogo} alt={"steam-logo"} />
-            <h1 className={"text-2xl font-bold text-white"}>{appName}</h1>
+            <h1 className={"text-2xl font-bold text-white hover:text-blue-600"}>{appName}</h1>
         </div>
     );
 };

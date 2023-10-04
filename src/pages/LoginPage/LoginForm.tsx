@@ -11,14 +11,14 @@ import { authEndPoints } from "@/api/authentication/AuthenticationEndPoints";
 import { AxiosError, AxiosResponse } from "axios";
 import { useUserInfoStore } from "@/stores/authentication/UserStore";
 
-const formSchema = z.object({
+const singInFormSchema = z.object({
     email: z.string().email({ message: "This must be a valid email!" }),
     password: z.string().min(6, { message: "Password must be atleast 6 characters" }).max(30),
 });
 
 const LoginForm = (): ReactElement => {
-    const form = useForm<z.infer<typeof formSchema>>({
-        resolver: zodResolver(formSchema),
+    const form = useForm<z.infer<typeof singInFormSchema>>({
+        resolver: zodResolver(singInFormSchema),
         defaultValues: {
             email: "",
             password: "",
@@ -33,15 +33,15 @@ const LoginForm = (): ReactElement => {
         }),
     );
 
-    const onSubmit = (values: z.infer<typeof formSchema>) => {
+    const onSubmit = (validatedValues: z.infer<typeof singInFormSchema>) => {
         const loginData: LoginUserReq = {
-            email: values.email,
-            password: values.password,
+            email: validatedValues.email,
+            password: validatedValues.password,
         };
 
         authEndPoints.API_AUTH_LOGIN(loginData).then((response: AxiosResponse<never>) => {
             if (response.status === 206) {
-                setEmail(values.email);
+                setEmail(validatedValues.email);
                 setIsCredentialsChecked(true);
             }
 
@@ -66,7 +66,7 @@ const LoginForm = (): ReactElement => {
 export default LoginForm;
 
 type InputsProps = {
-    form: UseFormReturn<z.infer<typeof formSchema>>;
+    form: UseFormReturn<z.infer<typeof singInFormSchema>>;
 };
 
 const EmailInput = ({ form }: InputsProps): ReactElement => {
@@ -123,6 +123,7 @@ const SignInButton = (): ReactElement => {
     return (
         <div className={"flex w-full justify-center py-4"}>
             <Button
+                type={"submit"}
                 className={
                     "h-11 w-44 self-center rounded-sm bg-gradient-to-r from-blue-400 to-blue-600 shadow-md hover:from-blue-300 hover:to-blue-500"
                 }
