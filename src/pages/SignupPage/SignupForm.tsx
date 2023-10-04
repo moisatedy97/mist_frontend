@@ -185,7 +185,7 @@ const SignupButton = (): ReactElement => {
             <Button
                 type={"submit"}
                 className={
-                    "h-11 w-44 self-center rounded-sm bg-gradient-to-r from-blue-400 to-blue-600 shadow-md hover:from-blue-300 hover:to-blue-500"
+                    "h-11 w-44 self-center rounded-sm bg-gradient-to-r from-blue-400 to-blue-600 shadow-md hover:from-blue-300 hover:to-blue-500 sm:h-11 sm:w-36"
                 }
             >
                 <p className={"font-medium text-white"}>{"Sign up"}</p>
@@ -195,5 +195,5 @@ const SignupButton = (): ReactElement => {
 };
 
 const WrongCredentials = (): ReactElement => {
-    return <p className={"mt-2 text-sm font-normal text-red-700"}>* Email/password incorrect or required</p>;
+    return <p className={"mt-2 text-sm font-normal text-red-700 sm:text-sm"}>* Email/password incorrect or required</p>;
 };

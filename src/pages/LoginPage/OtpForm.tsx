@@ -7,6 +7,7 @@ import { useNavigate } from "react-router";
 import { routerEndPoints } from "../../constants/Constants";
 import { accessLocalStorage } from "@/stores/browser/SessionStorage";
 import LoginLoader from "../../components/LoginLoader";
+import { Input } from "@/components/ui/input";
 
 const OtpForm = (): ReactElement => {
     const [timer, setTimer] = useState<number>(60);
@@ -45,16 +46,16 @@ const OtpForm = (): ReactElement => {
     };
 
     return (
-        <div className={"flex flex-col items-center justify-center gap-8"}>
-            <p className={"mt-8 font-normal text-white"}>
+        <div className={"flex flex-col items-center justify-center gap-6 sm:gap-8"}>
+            <p className={"mt-6 text-sm font-normal text-white sm:mt-8 sm:text-base"}>
                 {"We've sent you an email with the OTP. Please confirm below:"}
             </p>
             <LoginLoader>{timer}</LoginLoader>
             <div className={"flex items-center gap-4"}>
-                <input
+                <Input
                     value={otp}
                     className={
-                        "h-14 w-[148px] space-x-4 rounded border border-gray-800 bg-gray-800 px-8 py-3 text-center text-3xl tracking-widest text-white shadow-md outline-none hover:bg-gray-700"
+                        "h-14 w-[8rem] space-x-4 rounded border border-gray-800 bg-gray-800 px-5 py-3 text-center text-3xl tracking-widest text-white shadow-md outline-none hover:bg-gray-700 sm:w-[148px] sm:px-7"
                     }
                     placeholder={"OTP"}
                     onChange={handleChange}
