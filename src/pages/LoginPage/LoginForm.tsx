@@ -108,7 +108,7 @@ const PasswordInput = ({ form }: InputsProps): ReactElement => {
             name="password"
             render={({ field }) => (
                 <FormItem>
-                    <FormLabel className={"text-sm font-medium"}>{"PASSWORD"}</FormLabel>
+                    <FormLabel className={"pb-1 text-sm font-medium text-gray-400"}>{"PASSWORD"}</FormLabel>
                     <FormControl>
                         <Input type="password" placeholder="Password" onChangeCapture={handleChange} {...field} />
                     </FormControl>

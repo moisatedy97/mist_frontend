@@ -1,5 +1,6 @@
 import { ReactElement } from "react";
 import { useSignupStore } from "../../stores/authentication/SignupStore";
+import { Input } from "@/components/ui/input";
 
 const SignupForm = (): ReactElement => {
     return (
@@ -23,14 +24,8 @@ const FirstNameInput = (): ReactElement => {
 
     return (
         <div>
-            <h4 className={"pb-1 text-sm font-medium text-gray-400"}>{"FIRST NAME"}</h4>
-            <input
-                className={
-                    "h-9 w-full rounded-sm border border-gray-800 bg-gray-800 p-3 text-sm text-white shadow-md outline-none hover:bg-gray-700"
-                }
-                type={"text"}
-                onChange={handleChange}
-            />
+            <h4 className={"pb-2 text-sm font-medium text-gray-400"}>{"FIRST NAME"}</h4>
+            <Input className={"w-full"} type={"text"} placeholder={"First Name"} onChange={handleChange} />
         </div>
     );
 };
@@ -44,14 +39,8 @@ const LastNameInput = (): ReactElement => {
 
     return (
         <div>
-            <h4 className={"pb-1 text-sm font-medium text-gray-400"}>{"LAST NAME"}</h4>
-            <input
-                className={
-                    "h-9 w-full rounded-sm border border-gray-800 bg-gray-800 p-3 text-sm text-white shadow-md outline-none hover:bg-gray-700"
-                }
-                type={"text"}
-                onChange={handleChange}
-            />
+            <h4 className={"pb-2 text-sm font-medium text-gray-400"}>{"LAST NAME"}</h4>
+            <Input className={"w-full"} type={"text"} placeholder={"Last Name"} onChange={handleChange} />
         </div>
     );
 };
@@ -65,14 +54,8 @@ const EmailInput = (): ReactElement => {
 
     return (
         <div>
-            <h4 className={"pb-1 text-sm font-medium text-gray-400"}>{"EMAIL *"}</h4>
-            <input
-                className={
-                    "h-9 w-full rounded-sm border border-gray-800 bg-gray-800 p-3 text-sm text-white shadow-md outline-none hover:bg-gray-700"
-                }
-                type={"text"}
-                onChange={handleChange}
-            />
+            <h4 className={"pb-2 text-sm font-medium text-gray-400"}>{"EMAIL *"}</h4>
+            <Input className={"w-full"} type={"text"} placeholder={"Email"} onChange={handleChange} />
         </div>
     );
 };
@@ -86,12 +69,11 @@ const PasswordInput = (): ReactElement => {
 
     return (
         <div>
-            <h4 className={"pb-1 text-sm font-medium text-gray-400"}>{"PASSWORD *"}</h4>
-            <input
-                className={
-                    "h-9 w-full rounded-sm border border-gray-800 bg-gray-800 p-3 text-sm text-white shadow-md outline-none hover:bg-gray-700"
-                }
+            <h4 className={"pb-2 text-sm font-medium text-gray-400"}>{"PASSWORD *"}</h4>
+            <Input
+                className={"w-full"}
                 type={"password"}
+                placeholder={"Password"}
                 required={true}
                 onChange={handleChange}
             />
