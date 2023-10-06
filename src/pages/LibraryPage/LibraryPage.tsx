@@ -1,18 +1,22 @@
 import { gamesEndPoints } from "@/api/GamesEndPoints";
 import { Command, CommandEmpty, CommandInput, CommandItem, CommandList } from "@/components/ui/command";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Game } from "@/interfaces/TypeGame";
 import { Genre } from "@/interfaces/TypeGenre";
 import { useBoughtGamesStore } from "@/stores/BoughtGamesStore";
 import { useDisplayedGameStore } from "@/stores/DisplayedGame";
 import { AxiosResponse } from "axios";
-import { ReactElement } from "react";
+import { ChevronRight } from "lucide-react";
+import { ReactElement, useState } from "react";
 
 const LibraryPage = (): ReactElement => {
   const displayedGame = useDisplayedGameStore((state) => state.displayedGame);
+  const [openCommand, setOpenCommand] = useState<boolean>(false);
 
   return (
-    <div className="flex flex-1 overflow-hidden bg-gray-800">
-      <CommandComponent />
+    <div className="relative flex h-full overflow-hidden bg-gray-800">
+      <SheetComponent openCommand={openCommand} setOpenCommand={setOpenCommand} />
+      {openCommand ? undefined : <CommandComponent isOpen={openCommand} />}
       {displayedGame ? (
         <DisplayGame displayedGame={displayedGame} />
       ) : (
@@ -24,7 +28,42 @@ const LibraryPage = (): ReactElement => {
 
 export default LibraryPage;
 
-const CommandComponent = (): ReactElement => {
+type SheetComponentProps = {
+  openCommand: boolean;
+  setOpenCommand: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+const SheetComponent = ({ openCommand, setOpenCommand }: SheetComponentProps): ReactElement => {
+  const handleChevronClick = (): void => {
+    setOpenCommand(true);
+  };
+
+  const handleClose = (): void => {
+    setOpenCommand(false);
+  };
+
+  return (
+    <Sheet key={"left"}>
+      <SheetTrigger>
+        <div
+          className="absolute left-0 top-0 z-10 flex h-full w-4 items-center justify-end rounded-md bg-gray-950 opacity-70 hover:w-8 hover:bg-gray-900 xl:hidden"
+          onClick={handleChevronClick}
+        >
+          <ChevronRight className="h-32 w-10 opacity-100" />
+        </div>
+      </SheetTrigger>
+      <SheetContent className="w-full bg-gray-800 sm:w-[400px]" side={"left"} onCloseAutoFocus={handleClose}>
+        <CommandComponent isOpen={openCommand} />
+      </SheetContent>
+    </Sheet>
+  );
+};
+
+type CommandComponentProps = {
+  isOpen: boolean;
+};
+
+const CommandComponent = ({ isOpen }: CommandComponentProps): ReactElement => {
   const boughtGames = useBoughtGamesStore((state) => state.boughtGames);
   const setDisplayedGame = useDisplayedGameStore((state) => state.setDisplayedGame);
 
@@ -35,9 +74,9 @@ const CommandComponent = (): ReactElement => {
   };
 
   return (
-    <Command className="w-96 border bg-gray-900 shadow-md">
+    <Command className={`${isOpen ? "mt-8 h-2/3" : "hidden w-96 xl:block"} border bg-gray-900 shadow-md`}>
       <CommandInput placeholder={"Search game..."} />
-      <CommandList className="custom_scrollbar m-2 min-h-[45rem] rounded-lg bg-gray-700">
+      <CommandList className="custom_scrollbar m-2 h-full max-h-none rounded-lg bg-gray-700">
         <CommandEmpty>{"No results found."}</CommandEmpty>
         {boughtGames.map((boughtGame: Game, index: number) => {
           return (
@@ -63,7 +102,7 @@ type DisplayGameProps = {
 
 const DisplayGame = ({ displayedGame }: DisplayGameProps): ReactElement => {
   return (
-    <div className="flex w-full flex-1">
+    <div className="z-5 flex w-full flex-1">
       <div className="overflow-y-auto">
         <div className="h-[28rem] w-full self-center overflow-hidden">
           <img className="min-w-full" src={displayedGame.background_image} alt={displayedGame.name} />
