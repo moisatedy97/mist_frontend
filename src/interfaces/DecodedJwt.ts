@@ -1,5 +1,5 @@
 export type DecodedJwt = {
-    exp: number;
-    iat: number;
-    sub: string;
+  exp: number;
+  iat: number;
+  sub: string;
 };
