@@ -130,7 +130,7 @@ const SignInButton = (): ReactElement => {
   );
 };
 
-const WrongCredentials = () => {
+const WrongCredentials = (): ReactElement => {
   return (
     <p className="text-xs font-normal text-red-700 sm:text-sm">{"* Email/password incorrect. Please try again!"}</p>
   );

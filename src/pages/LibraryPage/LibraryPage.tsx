@@ -14,7 +14,7 @@ const LibraryPage = (): ReactElement => {
   const [openCommand, setOpenCommand] = useState<boolean>(false);
 
   return (
-    <div className="relative flex h-full overflow-hidden bg-gray-800">
+    <div className="relative flex h-full flex-1 overflow-hidden bg-gray-800">
       <SheetComponent openCommand={openCommand} setOpenCommand={setOpenCommand} />
       {openCommand ? undefined : <CommandComponent isOpen={openCommand} />}
       {displayedGame ? (
@@ -76,7 +76,7 @@ const CommandComponent = ({ isOpen }: CommandComponentProps): ReactElement => {
   return (
     <Command className={`${isOpen ? "mt-8 h-2/3" : "hidden w-96 xl:block"} border bg-gray-900 shadow-md`}>
       <CommandInput placeholder={"Search game..."} />
-      <CommandList className="custom_scrollbar m-2 h-full max-h-none rounded-lg bg-gray-700">
+      <CommandList className="custom_scrollbar h-full max-h-none rounded-lg bg-gray-700 p-2">
         <CommandEmpty>{"No results found."}</CommandEmpty>
         {boughtGames.map((boughtGame: Game, index: number) => {
           return (
@@ -104,43 +104,51 @@ const DisplayGame = ({ displayedGame }: DisplayGameProps): ReactElement => {
   return (
     <div className="z-5 flex w-full flex-1">
       <div className="overflow-y-auto">
-        <div className="h-[28rem] w-full self-center overflow-hidden">
+        <div className="max-h-[28rem] w-full self-center overflow-hidden">
           <img className="min-w-full" src={displayedGame.background_image} alt={displayedGame.name} />
         </div>
-        <DisplayedGameInfo displayedGame={displayedGame} />
-        <DisplayedGameDescription displayedGame={displayedGame} />
+        <div className="flex flex-col gap-6 px-8 py-6 sm:gap-8 lg:gap-10">
+          <DisplayedGameTitle displayedGame={displayedGame} />
+          <DisplayedGameInfo displayedGame={displayedGame} />
+          <DisplayedGameDescription displayedGame={displayedGame} />
+        </div>
       </div>
+    </div>
+  );
+};
+
+const DisplayedGameTitle = ({ displayedGame }: DisplayGameProps): ReactElement => {
+  return (
+    <div className="flex flex-col gap-2">
+      <p className="text-xl font-semibold sm:text-2xl lg:text-3xl">{displayedGame.name}</p>
+      <div className="flex gap-2 pl-3 sm:pl-5">
+        {displayedGame.genres.map((genre: Genre, index: number) => {
+          return (
+            <p key={index} className="text-sm italic text-gray-400 sm:text-base">
+              {genre.name}
+            </p>
+          );
+        })}
+      </div>
+      <GameRating displayedGame={displayedGame} />
     </div>
   );
 };
 
 const DisplayedGameInfo = ({ displayedGame }: DisplayGameProps): ReactElement => {
   return (
-    <div className="flex gap-16 p-4">
-      <div className="flex flex-col gap-2">
-        <p className="text-4xl font-semibold">{displayedGame.name}</p>
-        <div className="flex gap-2 pl-8">
-          {displayedGame.genres.map((genre: Genre, index: number) => {
-            return (
-              <p key={index} className="text-sm italic text-gray-400">
-                {genre.name}
-              </p>
-            );
-          })}
-        </div>
-        <GameRating displayedGame={displayedGame} />
-      </div>
-      <GamePlayedTime displayedGame={displayedGame} />
-      <GameMetacritic displayedGame={displayedGame} />
-      <GameAchievements displayedGame={displayedGame} />
+    <div className="flex justify-center gap-2 sm:justify-start sm:gap-4 lg:gap-6">
+      {displayedGame.playtime > 0 ? <GamePlayedTime displayedGame={displayedGame} /> : undefined}
+      {displayedGame.metacritic > 0 ? <GameMetacritic displayedGame={displayedGame} /> : undefined}
+      {displayedGame.achievements_count > 0 ? <GameAchievements displayedGame={displayedGame} /> : undefined}
     </div>
   );
 };
 
 const GameRating = ({ displayedGame }: DisplayGameProps): ReactElement => {
   return (
-    <div className="flex items-center gap-1 pl-8">
-      <p className="text-xl font-medium text-white">{displayedGame.rating}</p>
+    <div className="flex items-center gap-1 pl-3 sm:pl-5">
+      <p className="text-sm font-medium text-white sm:text-base lg:text-lg">{displayedGame.rating}</p>
       <svg
         xmlns={"http://www.w3.org/2000/svg"}
         fill={"none"}
@@ -170,13 +178,14 @@ const GamePlayedTime = ({ displayedGame }: DisplayGameProps): ReactElement => {
         viewBox={"0 0 24 24"}
         strokeWidth={"1.5"}
         stroke={"currentColor"}
-        className="h-10 w-10"
+        className="h-6 w-6 sm:h-9 sm:w-9"
       >
         <path strokeLinecap={"round"} strokeLinejoin={"round"} d={"M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"} />
       </svg>
-      <div>
-        <p className="text-lg font-semibold">{"TIME PLAYED"}</p>
-        <p className="text-gray-400">{`${displayedGame.playtime} hours`}</p>
+      <div className="flex flex-col">
+        <p className="text-xs font-semibold sm:text-sm">{"TIME PLAYED"}</p>
+        <p className="text-xs text-gray-400 sm:text-sm">{displayedGame.playtime}</p>
+        <p className="text-xs text-gray-400 sm:text-sm">{"hours"}</p>
       </div>
     </div>
   );
@@ -191,7 +200,7 @@ const GameMetacritic = ({ displayedGame }: DisplayGameProps): ReactElement => {
         viewBox={"0 0 24 24"}
         strokeWidth={"1.5"}
         stroke={"currentColor"}
-        className="h-9 w-9"
+        className="h-6 w-6 sm:h-9 sm:w-9"
       >
         <path
           strokeLinecap={"round"}
@@ -201,9 +210,10 @@ const GameMetacritic = ({ displayedGame }: DisplayGameProps): ReactElement => {
           }
         />
       </svg>
-      <div>
-        <p className="text-lg font-semibold">{"METACRITIC"}</p>
-        <p className="text-gray-400">{`${displayedGame.metacritic} critics`}</p>
+      <div className="flex flex-col">
+        <p className="text-xs font-semibold sm:text-sm">{"METACRITIC"}</p>
+        <p className="text-xs text-gray-400 sm:text-sm">{displayedGame.metacritic}</p>
+        <p className="text-xs text-gray-400 sm:text-sm">{"critics"}</p>
       </div>
     </div>
   );
@@ -218,7 +228,7 @@ const GameAchievements = ({ displayedGame }: DisplayGameProps): ReactElement => 
         viewBox={"0 0 24 24"}
         strokeWidth={"1.5"}
         stroke={"currentColor"}
-        className="h-9 w-9"
+        className="h-6 w-6 sm:h-9 sm:w-9"
       >
         <path
           strokeLinecap={"round"}
@@ -229,9 +239,10 @@ const GameAchievements = ({ displayedGame }: DisplayGameProps): ReactElement => 
         />
       </svg>
 
-      <div>
-        <p className="text-lg font-semibold">{"ACHIVEMENTS"}</p>
-        <p className="text-gray-400">{`${displayedGame.achievements_count} achievements`}</p>
+      <div className="flex flex-col">
+        <p className="text-xs font-semibold sm:text-sm">{"ACHIVEMENTS"}</p>
+        <p className="text-xs text-gray-400 sm:text-sm">{displayedGame.achievements_count}</p>
+        <p className="text-xs text-gray-400 sm:text-sm">{"achivements"}</p>
       </div>
     </div>
   );
@@ -240,8 +251,8 @@ const GameAchievements = ({ displayedGame }: DisplayGameProps): ReactElement => 
 const DisplayedGameDescription = ({ displayedGame }: DisplayGameProps): ReactElement => {
   return (
     <div className="flex flex-col gap-2 px-4 py-8">
-      <p className="text-xl font-semibold">{"Description"}</p>
-      <p className="text-xs text-gray-400">{displayedGame.description_raw}</p>
+      <p className="text-sm font-semibold sm:text-base lg:text-xl">{"Description"}</p>
+      <p className="text-[0.5rem] text-gray-400 sm:text-xs">{displayedGame.description_raw}</p>
     </div>
   );
 };

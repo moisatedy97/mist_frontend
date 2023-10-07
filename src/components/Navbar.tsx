@@ -1,11 +1,13 @@
+import { Notification } from "@/interfaces/TypeNotification";
 import { useDisplayedGameStore } from "@/stores/DisplayedGame";
-import { ReactElement } from "react";
+import { useNotificationStore } from "@/stores/authentication/NotificationsStore";
+import { format, fromUnixTime } from "date-fns";
+import { Menu } from "lucide-react";
+import { ReactElement, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
+import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet";
 import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip";
-import { useNotificationStore } from "@/stores/authentication/NotificationsStore";
-import { Notification } from "@/interfaces/TypeNotification";
-import { format, fromUnixTime } from "date-fns";
 
 const Navbar = (): ReactElement => {
   return (
@@ -20,22 +22,63 @@ export default Navbar;
 
 const NavbarLinks = (): ReactElement => {
   const displayedGame = useDisplayedGameStore((state) => state.displayedGame);
+  const [openMenu, setOpenMenu] = useState<boolean>(false);
 
   return (
     <div className="flex items-center gap-2 sm:gap-3 lg:gap-4">
-      <StoreLink />
-      <LibraryLink />
-      {displayedGame !== null ? <CommunityLink /> : undefined}
-      <ProfileLink />
+      <DropMenu openMenu={openMenu} setOpenMenu={setOpenMenu} />
+      {openMenu ? undefined : (
+        <>
+          <StoreLink openMenu={openMenu} />
+          <LibraryLink openMenu={openMenu} />
+          {displayedGame !== null ? <CommunityLink openMenu={openMenu} /> : undefined}
+          <ProfileLink openMenu={openMenu} />
+        </>
+      )}
     </div>
   );
 };
 
-const StoreLink = (): ReactElement => {
+type DropMenuProps = {
+  openMenu: boolean;
+  setOpenMenu: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+const DropMenu = ({ openMenu, setOpenMenu }: DropMenuProps): ReactElement => {
+  const handleClick = () => {
+    setOpenMenu(true);
+  };
+
+  const handleClose = (): void => {
+    setOpenMenu(false);
+  };
+
   return (
-    <NavLink className="relative" to="/store">
+    <Sheet key={"right"}>
+      <SheetTrigger>
+        <Menu className="lg:hidden" onClickCapture={handleClick} />
+      </SheetTrigger>
+      <SheetContent className="w-full bg-gray-800 sm:w-[400px]" side={"right"} onCloseAutoFocus={handleClose}>
+        <div className="mt-44 flex flex-col items-center gap-6 p-2">
+          <StoreLink openMenu={openMenu} />
+          <LibraryLink openMenu={openMenu} />
+          <CommunityLink openMenu={openMenu} />
+          <ProfileLink openMenu={openMenu} />
+        </div>
+      </SheetContent>
+    </Sheet>
+  );
+};
+
+type LinkProps = {
+  openMenu: boolean;
+};
+
+const StoreLink = ({ openMenu }: LinkProps): ReactElement => {
+  return (
+    <NavLink className={`${openMenu ? "block" : "hidden lg:block"} relative`} to="/store">
       {({ isActive }) => (
-        <>
+        <div className="flex flex-col-reverse">
           <p
             className={
               isActive
@@ -45,20 +88,16 @@ const StoreLink = (): ReactElement => {
           >
             {"STORE"}
           </p>
-          <div
-            className={
-              isActive ? "absolute h-1 w-full rounded-sm bg-blue-500" : " absolute h-1 w-full rounded-sm bg-gray-900"
-            }
-          ></div>
-        </>
+          <div className={isActive ? "absolute h-1 w-full rounded-sm bg-blue-500" : "hidden"}></div>
+        </div>
       )}
     </NavLink>
   );
 };
 
-const LibraryLink = (): ReactElement => {
+const LibraryLink = ({ openMenu }: LinkProps): ReactElement => {
   return (
-    <NavLink className="relative" to="/library">
+    <NavLink className={`${openMenu ? "block" : "hidden lg:block"} relative`} to="/library">
       {({ isActive }) => (
         <>
           <p
@@ -70,20 +109,16 @@ const LibraryLink = (): ReactElement => {
           >
             {"LIBRARY"}
           </p>
-          <div
-            className={
-              isActive ? "absolute h-1 w-full rounded-sm bg-blue-500" : " absolute h-1 w-full rounded-sm bg-gray-900"
-            }
-          ></div>
+          <div className={isActive ? "absolute h-1 w-full rounded-sm bg-blue-500" : "hidden"}></div>
         </>
       )}
     </NavLink>
   );
 };
 
-const CommunityLink = (): ReactElement => {
+const CommunityLink = ({ openMenu }: LinkProps): ReactElement => {
   return (
-    <NavLink className="relative" to="/community">
+    <NavLink className={`${openMenu ? "block" : "hidden lg:block"} relative`} to="/community">
       {({ isActive }) => (
         <>
           <p
@@ -95,20 +130,16 @@ const CommunityLink = (): ReactElement => {
           >
             {"COMMUNITY"}
           </p>
-          <div
-            className={
-              isActive ? "absolute h-1 w-full rounded-sm bg-blue-500" : " absolute h-1 w-full rounded-sm bg-gray-900"
-            }
-          ></div>
+          <div className={isActive ? "absolute h-1 w-full rounded-sm bg-blue-500" : "hidden"}></div>
         </>
       )}
     </NavLink>
   );
 };
 
-const ProfileLink = (): ReactElement => {
+const ProfileLink = ({ openMenu }: LinkProps): ReactElement => {
   return (
-    <NavLink className="relative" to="/profile">
+    <NavLink className={`${openMenu ? "block" : "hidden lg:block"} relative`} to="/profile">
       {({ isActive }) => (
         <>
           <p
@@ -120,11 +151,7 @@ const ProfileLink = (): ReactElement => {
           >
             {"PROFILE"}
           </p>
-          <div
-            className={
-              isActive ? "absolute h-1 w-full rounded-sm bg-blue-500" : " absolute h-1 w-full rounded-sm bg-gray-900"
-            }
-          ></div>
+          <div className={isActive ? "absolute h-1 w-full rounded-sm bg-blue-500" : "hidden"}></div>
         </>
       )}
     </NavLink>
