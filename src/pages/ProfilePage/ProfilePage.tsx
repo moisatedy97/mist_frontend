@@ -55,7 +55,7 @@ const ProfilePage = (): ReactElement => {
     ret = <p className="text-2xl font-semibold">{"No user logged in"}</p>;
   }
 
-  return <div className="flex flex-1 flex-col gap-11 overflow-y-auto bg-gray-800 px-11 py-8">{ret}</div>;
+  return <div className="flex flex-1 flex-col overflow-y-auto bg-gray-800 px-2 py-6 sm:px-5 lg:px-8">{ret}</div>;
 };
 
 export default ProfilePage;
@@ -70,7 +70,7 @@ const UserName = (): ReactElement => {
   if (userEmail) {
     return (
       <div className="flex items-center gap-4">
-        <p className="text-2xl font-semibold hover:text-blue-500">{`Welcome, ${userFirstName} ${userLastName}`}</p>
+        <p className="text-base font-semibold hover:text-blue-500 sm:text-xl lg:text-2xl">{`Welcome, ${userFirstName} ${userLastName}`}</p>
         <LogoutButton />
       </div>
     );
@@ -81,7 +81,7 @@ const UserName = (): ReactElement => {
 
 const UserInfo = (): ReactElement => {
   return (
-    <div className="mt-14 flex flex-col gap-6">
+    <div className="mt-8 flex flex-col gap-2 sm:mt-10 sm:gap-4 lg:mt-14 lg:gap-6">
       <EmailInput />
       <FirstNameInput />
       <LastNameInput />
@@ -99,7 +99,7 @@ const EmailInput = (): ReactElement => {
     <>
       {userEmail.length > 0 ? (
         <div className="flex w-[25rem] flex-col gap-2">
-          <Label className="text-sm font-medium text-blue-500 hover:text-white" htmlFor="email">
+          <Label className="text-sm font-medium text-blue-500 hover:text-white sm:text-base" htmlFor="email">
             {"Email"}
           </Label>
           <Input
@@ -107,7 +107,7 @@ const EmailInput = (): ReactElement => {
             placeholder={"Email"}
             readOnly={true}
             value={userEmail}
-            className="bg-gray-900 text-gray-500 hover:border-blue-500"
+            className="w-[20rem] bg-gray-900 text-gray-500 hover:border-blue-500 sm:w-[25rem]"
           />
         </div>
       ) : (
@@ -132,7 +132,7 @@ const FirstNameInput = (): ReactElement => {
     <>
       {userEmail.length > 0 ? (
         <div className="flex w-[25rem] flex-col gap-2">
-          <Label className="text-sm font-medium text-blue-500 hover:text-white" htmlFor="firstName">
+          <Label className="text-sm font-medium text-blue-500 hover:text-white sm:text-base" htmlFor="firstName">
             {"First Name"}
           </Label>
           <Input
@@ -140,7 +140,7 @@ const FirstNameInput = (): ReactElement => {
             placeholder="First Name"
             value={userFirstName}
             onChange={handleChange}
-            className="bg-gray-900 hover:border-blue-500"
+            className="w-[20rem] bg-gray-900 hover:border-blue-500 sm:w-[25rem]"
           />
         </div>
       ) : (
@@ -165,7 +165,7 @@ const LastNameInput = (): ReactElement => {
     <>
       {userEmail.length > 0 ? (
         <div className="flex w-[25rem] flex-col gap-2">
-          <Label className="text-sm font-medium text-blue-500 hover:text-white" htmlFor="lastName">
+          <Label className="text-sm font-medium text-blue-500 hover:text-white sm:text-base" htmlFor="lastName">
             {"Last Name"}
           </Label>
           <Input
@@ -173,7 +173,7 @@ const LastNameInput = (): ReactElement => {
             placeholder={"Last Name"}
             value={userLastName}
             onChange={handleChange}
-            className="bg-gray-900 hover:border-blue-500"
+            className="w-[20rem] bg-gray-900 hover:border-blue-500 sm:w-[25rem]"
           />
         </div>
       ) : (
@@ -202,14 +202,14 @@ const BirthDateInput = (): ReactElement => {
       {userEmail.length > 0 ? (
         <div className="flex w-[25rem] flex-col gap-2">
           <Popover>
-            <Label className="text-sm font-medium text-blue-500 hover:text-white" htmlFor="birthDate">
+            <Label className="text-sm font-medium text-blue-500 hover:text-white sm:text-base" htmlFor="birthDate">
               {"Birth Date"}
             </Label>
             <PopoverTrigger asChild>
               <Button
                 variant={"outline"}
                 className={cn(
-                  "w-full justify-start bg-gray-900 text-left font-normal hover:border-blue-500 hover:bg-gray-900",
+                  "w-[20rem] justify-start bg-gray-900 text-left font-normal hover:border-blue-500 hover:bg-gray-900 sm:w-[25rem]",
                   !date && "text-muted-foreground",
                 )}
               >
@@ -244,7 +244,7 @@ const BirthPlaceInput = (): ReactElement => {
     <>
       {userEmail.length > 0 ? (
         <div className="flex w-[25rem] flex-col gap-2">
-          <Label className="text-sm font-medium text-blue-500 hover:text-white" htmlFor="birthPlace">
+          <Label className="text-sm font-medium text-blue-500 hover:text-white sm:text-base" htmlFor="birthPlace">
             {"Birth Place"}
           </Label>
           <Input
@@ -252,7 +252,7 @@ const BirthPlaceInput = (): ReactElement => {
             placeholder={"Birth Place"}
             value={userBirthPlace}
             onChange={handleChange}
-            className="bg-gray-900 hover:border-blue-500"
+            className="w-[20rem] bg-gray-900 hover:border-blue-500 sm:w-[25rem]"
           />
         </div>
       ) : (
@@ -294,7 +294,7 @@ const EditUserInfoButton = (): ReactElement => {
             <Button
               variant="outline"
               onClickCapture={handleClick}
-              className="flex w-28 items-center gap-2 rounded-md bg-gradient-to-r from-lime-400 to-lime-600 shadow-md hover:from-lime-300 hover:to-lime-500"
+              className="flex w-24 items-center gap-2 rounded-md bg-gradient-to-r from-lime-400 to-lime-600 shadow-md hover:from-lime-300 hover:to-lime-500 sm:w-28"
             >
               <svg
                 xmlns={"http://www.w3.org/2000/svg"}
@@ -353,7 +353,7 @@ const LogoutButton = (): ReactElement => {
             viewBox={"0 0 24 24"}
             strokeWidth={"1.5"}
             stroke={"currentColor"}
-            className="h-6 w-6"
+            className="h-4 w-4 sm:h-6 sm:w-6"
           >
             <path
               strokeLinecap={"round"}
