@@ -37,7 +37,7 @@ const FooterAddGame = (): ReactElement => {
           <div className="text-xs font-normal text-slate-500 hover:text-slate-200">{"Add a game"}</div>
         </div>
       </PopoverTrigger>
-      <PopoverContent className="h-96 shadow-xl">
+      <PopoverContent className="z-30 h-72 w-60 bg-gray-900 shadow-xl sm:h-80 sm:w-72 lg:h-96 lg:w-80">
         <AddGame />
       </PopoverContent>
     </Popover>
@@ -68,7 +68,7 @@ const FooterFriendsAndChat = (): ReactElement => {
           </svg>
         </div>
       </PopoverTrigger>
-      <PopoverContent className="bg-gray-900">
+      <PopoverContent className="h-72 w-60 bg-gray-900 shadow-xl sm:h-80 sm:w-72 lg:h-96 lg:w-80">
         <div className="flex h-72 flex-col items-center gap-2 pt-16">
           <svg
             xmlns={"http://www.w3.org/2000/svg"}
@@ -86,7 +86,7 @@ const FooterFriendsAndChat = (): ReactElement => {
               }
             />
           </svg>
-          <p>{"Sorry you have no friends"}</p>
+          <p className="text-sm sm:text-base">{"Sorry you have no friends"}</p>
         </div>
       </PopoverContent>
     </Popover>
@@ -126,9 +126,9 @@ const AddGame = (): ReactElement => {
   };
 
   return (
-    <div>
-      <p className="text-sm font-semibold">{"Do you already have a game license?"}</p>
-      <p className="p-1 text-xs text-gray-600">{"Enter it here and claim your game!"}</p>
+    <div className="flex flex-col">
+      <p className="break-normal text-xs font-semibold sm:text-sm">{"Do you already have a game license?"}</p>
+      <p className="p-1 text-xs text-gray-600 sm:text-sm">{"Enter it here and claim your game!"}</p>
       <div className="mt-4 flex flex-col gap-2">
         <Input
           type={"text"}
@@ -140,16 +140,16 @@ const AddGame = (): ReactElement => {
         {!isLicenseCodeValid ? (
           <p className="text-xs text-red-700">{"*Invalid license code! Try again."}</p>
         ) : undefined}
-        <Button className="h-8 w-16 self-end hover:bg-blue-600" onClick={handleButtonClick}>
+        <Button className="h-6 w-14 self-end hover:bg-blue-600 sm:h-8 sm:w-16" onClick={handleButtonClick}>
           {"Enter"}
         </Button>
       </div>
-      <p className="mt-8 text-xs">
+      <p className="pt-5 text-[0.5rem] sm:pt-6 sm:text-xs lg:pt-8">
         {
           "*In this app the license code is the ID of a game. So if you wanna try adding a game to the library try a random 4 figure number."
         }
       </p>
-      <p className="mt-3 text-xs text-gray-600">{"Ex: 4000 -> Remember Me"}</p>
+      <p className="mt-2 text-[0.5rem] text-gray-600 sm:mt-3 sm:text-xs">{"Ex: 4000 -> Remember Me"}</p>
     </div>
   );
 };

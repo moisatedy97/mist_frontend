@@ -230,7 +230,7 @@ const NavbarNotifications = (): ReactElement => {
           </svg>
         </button>
       </PopoverTrigger>
-      <PopoverContent className="bg-gray-900">
+      <PopoverContent className="w-60 overflow-hidden bg-gray-900 shadow-xl sm:w-72 lg:w-80">
         <div className="custom_scrollbar flex max-h-96 flex-col-reverse gap-2 overflow-y-auto bg-gray-900 p-1">
           {notifications.length > 0 ? (
             notifications.map((notification: Notification, index: number) => {
@@ -244,8 +244,8 @@ const NavbarNotifications = (): ReactElement => {
                     notification.read ? "bg-gray-800" : "bg-gray-700"
                   }`}
                 >
-                  <p className="text-base font-semibold italic text-gray-400">{notification.title}</p>
-                  <p className="text-sm font-medium">{notification.description}</p>
+                  <p className="text-sm font-semibold italic text-gray-400 sm:text-base">{notification.title}</p>
+                  <p className="text-xs font-medium sm:text-sm">{notification.description}</p>
                   <p className="mt-2 self-end text-xs font-medium">{notificationTimestamp}</p>
                 </div>
               );
