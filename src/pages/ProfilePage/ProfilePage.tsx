@@ -18,6 +18,8 @@ import { cn } from "@/lib/utils";
 import { CalendarIcon } from "lucide-react";
 import { format, fromUnixTime, getUnixTime } from "date-fns";
 import { Calendar } from "@/components/ui/calendar";
+import { useNotificationStore } from "@/stores/authentication/NotificationsStore";
+import { useToast } from "@/components/ui/use-toast";
 
 const ProfilePage = (): ReactElement => {
   const token: I_AuthToken | null = accessLocalStorage.GET_AUTHENTICATION_TOKEN();
@@ -192,6 +194,8 @@ const BirthDateInput = (): ReactElement => {
   const [date, setDate] = useState<Date | undefined>(fromUnixTime(Number(userBirthDate)));
 
   useEffect(() => {
+    console.log(date);
+
     if (date) {
       setUserBirthDate(getUnixTime(date).toString());
     }
@@ -264,6 +268,8 @@ const BirthPlaceInput = (): ReactElement => {
 
 const EditUserInfoButton = (): ReactElement => {
   const userInfo = useUserInfoStore((state) => state);
+  const addNotification = useNotificationStore((state) => state.addNotification);
+  const { toast } = useToast();
 
   const handleClick = () => {
     userEndPoints
@@ -281,6 +287,17 @@ const EditUserInfoButton = (): ReactElement => {
             userInfo.setLastName(response.lastName);
             userInfo.setBirthDate(response.birthDate);
             userInfo.setBirthPlace(response.birthPlace);
+          });
+
+          addNotification({
+            title: "Profile modifcations",
+            description: `Congratulations. You successfully edited your profile.`,
+            timestamp: getUnixTime(new Date()),
+            read: false,
+          });
+          toast({
+            title: `Profile modifcations`,
+            description: "Congratulations. You successfully edited your profile.",
           });
         }
       });
@@ -330,6 +347,7 @@ const LogoutButton = (): ReactElement => {
     setIsTokenChecked: state.setIsTokenChecked,
     setIsCredentialsChecked: state.setIsCredentialsChecked,
   }));
+  const { toast } = useToast();
 
   const handleClick = () => {
     authEndPoints.API_AUTH_LOGOUT().then((response: AxiosResponse) => {
@@ -339,6 +357,11 @@ const LogoutButton = (): ReactElement => {
         setIsCredentialsChecked(false);
 
         accessLocalStorage.REMOVE_AUTHENTICATION_TOKEN();
+
+        toast({
+          title: `Logout`,
+          description: "Congratulations. You successfully logged out.",
+        });
       }
     });
   };

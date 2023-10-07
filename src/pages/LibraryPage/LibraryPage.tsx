@@ -1,6 +1,7 @@
 import { gamesEndPoints } from "@/api/GamesEndPoints";
 import { Command, CommandEmpty, CommandInput, CommandItem, CommandList } from "@/components/ui/command";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { useToast } from "@/components/ui/use-toast";
 import { Game } from "@/interfaces/TypeGame";
 import { Genre } from "@/interfaces/TypeGenre";
 import { useBoughtGamesStore } from "@/stores/BoughtGamesStore";
@@ -66,10 +67,16 @@ type CommandComponentProps = {
 const CommandComponent = ({ isOpen }: CommandComponentProps): ReactElement => {
   const boughtGames = useBoughtGamesStore((state) => state.boughtGames);
   const setDisplayedGame = useDisplayedGameStore((state) => state.setDisplayedGame);
+  const { toast } = useToast();
 
   const handleClick = (event: React.MouseEvent<HTMLDivElement>): void => {
     gamesEndPoints.API_GET_GAME_INFO({ id: Number(event.currentTarget.id) }).then((response: AxiosResponse<Game>) => {
       setDisplayedGame(response.data);
+
+      toast({
+        title: `You selected ${response.data.name}!`,
+        description: "You can now visit the community tab.",
+      });
     });
   };
 

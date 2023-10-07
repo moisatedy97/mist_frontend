@@ -7,6 +7,9 @@ import { Game } from "@/interfaces/TypeGame";
 import { useBoughtGamesStore } from "@/stores/BoughtGamesStore";
 import { AxiosResponse } from "axios";
 import { accessSessionStorage } from "@/stores/browser/SessionStorage";
+import { useNotificationStore } from "@/stores/authentication/NotificationsStore";
+import { useToast } from "./ui/use-toast";
+import { getUnixTime } from "date-fns";
 
 const Footer = (): ReactElement => {
   return (
@@ -101,6 +104,8 @@ const AddGame = (): ReactElement => {
   const [licenseCode, setLicenseCode] = useState<string>("");
   const [isLicenseCodeValid, setIsLicenseCodeValid] = useState<boolean>(false);
   const numberRegEx = new RegExp("^[0-9]+$");
+  const addNotification = useNotificationStore((state) => state.addNotification);
+  const { toast } = useToast();
 
   useEffect(() => {
     accessSessionStorage.SET_BOUGHT_GAMES(boughtGames);
@@ -119,6 +124,18 @@ const AddGame = (): ReactElement => {
       if (response.status === 200) {
         addBoughtGame(response.data);
         setIsLicenseCodeValid(true);
+        setLicenseCode("");
+
+        addNotification({
+          title: "Valid license!",
+          description: `You successfully added ${response.data.name}. Visit your library to play`,
+          timestamp: getUnixTime(new Date()),
+          read: false,
+        });
+        toast({
+          title: `You use the license for ${response.data.name}!`,
+          description: "Visit the library install the game and play.",
+        });
       } else {
         setIsLicenseCodeValid(false);
       }
