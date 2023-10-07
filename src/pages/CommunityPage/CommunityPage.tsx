@@ -12,7 +12,7 @@ const CommunityPage = (): ReactElement => {
   const displayedGame = useDisplayedGameStore((state) => state.displayedGame);
 
   return (
-    <div className="relative flex h-full flex-1 flex-col gap-11 bg-gray-800 p-8">
+    <div className="relative flex h-full flex-1 flex-col gap-11 overflow-auto bg-gray-800 px-2 py-6 sm:px-5 lg:px-8">
       {displayedGame ? (
         <>
           <img
@@ -40,16 +40,20 @@ const CommunityGame = ({ displayedGame }: CommunityGameProps): ReactElement => {
   return (
     <div className="z-10 flex flex-col overflow-y-auto">
       <a href={displayedGame.website}>
-        <p className="text-3xl font-semibold hover:text-blue-600">{displayedGame.name}</p>
+        <p className="text-xl font-semibold hover:text-blue-600 sm:text-2xl lg:text-3xl">{displayedGame.name}</p>
       </a>
       <div className="flex gap-2 p-2 text-sm italic text-gray-400">
         {displayedGame.genres.map((genre: Genre, index: number) => {
-          return <p key={index}>{genre.name}</p>;
+          return (
+            <p key={index} className="text-sm sm:text-base">
+              {genre.name}
+            </p>
+          );
         })}
       </div>
-      <GamePublishers displayedGame={displayedGame} />
-      <GameDevelopers displayedGame={displayedGame} />
-      <GameRelease displayedGame={displayedGame} />
+      {displayedGame.publishers.length > 0 ? <GamePublishers displayedGame={displayedGame} /> : undefined}
+      {displayedGame.developers.length > 0 ? <GameDevelopers displayedGame={displayedGame} /> : undefined}
+      {displayedGame.released !== null ? <GameRelease displayedGame={displayedGame} /> : undefined}
       <RedditSection displayedGame={displayedGame} />
       <RatingsSection displayedGame={displayedGame} />
       <ViewCountSection displayedGame={displayedGame} />
@@ -60,10 +64,10 @@ const CommunityGame = ({ displayedGame }: CommunityGameProps): ReactElement => {
 const GamePublishers = ({ displayedGame }: CommunityGameProps): ReactElement => {
   return (
     <div className="flex items-center gap-4 pt-10">
-      <p className="text-sm italic text-gray-400">{"Published by"}</p>
+      <p className="text-xs italic text-gray-400 sm:text-sm">{"Published by"}</p>
       {displayedGame.publishers.map((publisher: Publisher, index: number) => {
         return (
-          <p key={index} className="text-lg font-medium">
+          <p key={index} className="text-sm font-medium sm:text-base lg:text-lg">
             {publisher.name}
           </p>
         );
@@ -75,10 +79,10 @@ const GamePublishers = ({ displayedGame }: CommunityGameProps): ReactElement => 
 const GameDevelopers = ({ displayedGame }: CommunityGameProps): ReactElement => {
   return (
     <div className="flex items-center gap-4 pt-1">
-      <p className="text-sm italic text-gray-400">{"Developed by"}</p>
+      <p className="text-xs italic text-gray-400 sm:text-sm">{"Developed by"}</p>
       {displayedGame.developers.map((developer: Developer, index: number) => {
         return (
-          <p key={index} className="text-lg font-medium">
+          <p key={index} className="text-sm font-medium sm:text-base lg:text-lg">
             {developer.name}
           </p>
         );

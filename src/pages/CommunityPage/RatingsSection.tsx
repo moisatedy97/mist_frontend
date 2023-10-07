@@ -9,14 +9,14 @@ type RatingsSectionProps = {
 const RatingsSection = ({ displayedGame }: RatingsSectionProps): ReactElement => {
   return (
     <div className="pt-8">
-      <p className="text-xl font-semibold hover:text-blue-600">{"Ratings"}</p>
+      <p className="text-sm font-semibold hover:text-blue-600 sm:text-base lg:text-xl">{"Ratings"}</p>
       <div className="flex flex-col gap-2 p-2">
         {displayedGame.ratings.map((rating: Rating, index: number) => {
           return (
             <div key={index} className="flex items-center gap-4">
               <NumberOfStars ratingId={rating.id} />
-              <p className="text-sm italic text-gray-400">{rating.title}</p>
-              <p>{rating.percent}</p>
+              <p className="text-xs italic text-gray-400 sm:text-sm">{rating.title}</p>
+              <p className="text-sm sm:text-base">{rating.percent}</p>
             </div>
           );
         })}
@@ -82,7 +82,7 @@ const RatingStar = (): ReactElement => {
       viewBox={"0 0 24 24"}
       strokeWidth={"1.5"}
       stroke={"currentColor"}
-      className="h-4 w-4 fill-yellow-200"
+      className="h-3 w-3 fill-yellow-200 lg:h-4 lg:w-4"
     >
       <path
         strokeLinecap={"round"}
