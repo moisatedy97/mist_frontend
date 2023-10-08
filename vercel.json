@@ -1,11 +1,3 @@
 {
-  "routes": [
-    { "src": "/", "dest": "/store" },
-    { "src": "/store", "dest": "/store" },
-    { "src": "/library", "dest": "/library" },
-    { "src": "/community", "dest": "/community" },
-    { "src": "/profile", "dest": "/profile" },
-    { "src": "/signin", "dest": "/signin" },
-    { "src": "/signup", "dest": "/signup" }
-  ]
+  "rewrites": [{ "source": "/(.*)", "destination": "/" }]
 }
